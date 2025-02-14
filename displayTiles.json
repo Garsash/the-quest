@@ -1,0 +1,229 @@
+{
+    "Tiles": [
+        {
+            "from": "/",
+            "to": {
+                "tile": " ", 
+                "color": "white"
+            }
+        },
+        {
+            "from": "#",
+            "to": [
+                {
+                    "tile": "#",
+                    "color": "yellow",
+                    "chance": 0.9
+                },
+                {
+                    "tile": "%",
+                    "color": "yellow",
+                    "chance": 0.1
+                }
+            ]
+        },
+        {
+            "from": [".",":","R",">"],
+            "to": {
+                "tile": ".",
+                "color": "gray"
+            }
+        },
+        {
+            "from": "'",
+            "to": {
+                "tile": ",",
+                "color": "gray"
+            }
+        },
+        {
+            "from": "Y",
+            "to": {
+                "tile": "%",
+                "color": "yellow"
+            }
+        },
+        {
+            "from": "$",
+            "to": {
+                "tile": "S",
+                "color": "green"
+            }
+        },
+        {
+            "from": "%",
+            "to": {
+                "tile": "s",
+                "color": "green"
+            }
+        },
+        {
+            "from": "r",
+            "to": {
+                "tile": "R",
+                "color": "yellow"
+            }
+        },
+        {
+            "from": "g",
+            "to": {
+                "tile": ".",
+                "color": "green"
+            }
+        },
+        {
+            "from": "G",
+            "to": {
+                "tile": ",",
+                "color": "green"
+            }
+        },
+        {
+            "from": "t",
+            "to": {
+                "tile": "-",
+                "color": "white"
+            }
+        },
+        {
+            "from": "?",
+            "to": {
+                "color": "green"
+            }
+        },
+        {
+            "from": ["W","o"],
+            "to": {
+                "tile": ".",
+                "color": "yellow"
+            }
+        },
+        {
+            "from": "H",
+            "to": {
+                "tile": "\\",
+                "color": "yellow"
+            }
+        },
+        {
+            "from": "h",
+            "to": {
+                "tile": "/",
+                "color": "yellow"
+            }
+        },
+        {
+            "from": "k",
+            "to": {
+                "tile": "[]",
+                "color": "yellow"
+            }
+        },
+        {
+            "from": "l",
+            "to": {
+                "tile": "{}",
+                "color": "yellow"
+            }
+        },
+        {
+            "from": "|",
+            "to": {
+                "color": "yellow"
+            }
+        },
+        {
+            "from": "w",
+            "to": [
+                {
+                    "tile": "~",
+                    "color": "blue"
+                },
+                {
+                    "tile": "~~",
+                    "color": "blue"
+                },
+                {
+                    "tile": " ~",
+                    "color": "blue"
+                }
+            ]
+        },
+        {
+            "from": ",",
+            "to": {
+                "color": "red"
+            }
+        },
+        {
+            "from": "^",
+            "to": {
+                "color": "red"
+            }
+        },
+        {
+            "from": "\\",
+            "to": {
+                "tile": "^",
+                "color": "red"
+            }
+        },
+        {
+            "from": "*",
+            "to": {
+                "color": "purple"
+            }
+        },
+        {
+            "from": "-",
+            "to": {
+                "color": "yellow"
+            }
+        },
+        {
+            "from": "=",
+            "to": {
+                "color": "gray"
+            }
+        },
+        {
+            "from": "~",
+            "to": {
+                "color": "red"
+            }
+        },
+        {
+            "from": "E",
+            "to": {
+                "color": "red"
+            }
+        },
+        {
+            "from": ";",
+            "to": {
+                "color": "yellow"
+            }
+        },
+        {
+            "from": "b",
+            "to": {
+                "tile": ".",
+                "color": "blue"
+            }
+        },
+        {
+            "from": "s",
+            "to": {
+                "color": "yellow"
+            }
+        },
+        {
+            "from": "(",
+            "to": {
+                "tile": "~",
+                "color": "red"
+            }
+        }
+        
+    ]
+}

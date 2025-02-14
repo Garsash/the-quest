@@ -1,0 +1,43 @@
+Tile : "/" : " ", white
+Chance : "#" > "#", yellow % 0.9 | "%", yellow % 0.1
+Tile : "." > ".", gray
+Tile : ":" > ".", gray
+Tile : "R" > ".", gray
+Tile : ">" > ".", gray
+Tile : "'" > ",", gray
+Tile : "Y" > "%", yellow
+Tile : "$" > "S", green
+Tile : "%" > "s", green
+Tile : "r" > "R", yellow
+Tile : "g" > ".", green
+Tile : "G" > ",", green
+Tile : "t" > "-", white
+Tile : "?" > "?", green
+Tile : "W" > ".", yellow
+Tile : "H" > "\\", yellow
+Tile : "h" > "/", yellow
+Tile : "k" > "[]", yellow
+Tile : "l" > "{}", yellow
+Tile : "|" > "|", yellow
+Animate : "w" > "~ ", blue | "~~", blue | " ~", blue
+Animate : "f" > "t", yellow | "f", yellow
+Tile : "," > ",", red
+Tile : "^" > "^", red
+Tile : "\" > "^", red
+Tile : "*" > "*", purple
+Tile : "-" > "-", yellow
+Tile : "~" > "~", red
+Tile : "E" > "E", red
+Tile : "=" > "=", gray
+Tile : ";" > ";", yellow
+Tile : "b" > ".", blue
+Tile : "o" > ".", yellow
+Tile : "s" > "s", yellow
+Tile : "(" > "~", "red
+
+TYPE : TILE > SET TO, WITH COLOR [% CHANCE] | SET TO, WITH COLOR [% CHANCE]
+
+Tile : "/" > " ", white
+Chance : "#" > "#", yellow % 90 | "%", yellow % 90
+Animate : "w" > "~ " blue | "~~", blue | " ~", blue
+Animate : "w" > "~ " blue | "~~", blue | " ~", blue
