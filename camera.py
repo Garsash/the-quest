@@ -92,8 +92,15 @@ class Camera():
                     text+=char
             print(text)
 
+    def subDraw(self,obj,attribute,layers):
+        if hasattr(obj,attribute):
+            for subItem in getattr(obj,attribute):
+                if subItem.x>=self.x and subItem.x<self.x+self.width and subItem.y>=self.y and subItem.y<self.y+self.height:
+                    if not subItem.layer in layers.keys():
+                        layers[subItem.layer]=[]
+                    layers[subItem.layer].append(subItem)
 
-    def draw(self,level,frame,signText,debug):
+    def draw(self,level,frame,signText,debug,shader={"tiles":{},"background":" "}):
         #clear screen
         os.system("cls")
         debug.print()
@@ -104,7 +111,7 @@ class Camera():
         for y in range(self.height):
             line=[]
             for x in range(self.width):
-                line.append(" ")
+                line.append(shader["background"])
             display.append(line)
 
         #read map to display
@@ -124,16 +131,19 @@ class Camera():
                 tile=level.getTile(readPos.x,readPos.y)
                 display[y][x]=tile
 
+        frameReplaceTiles=replaceTiles.copy()
+        frameReplaceTiles.update(shader["tiles"])
+
         #draw correct tiles to display
         for y in range(len(display)):
             for x in range(len(display[y])):
                 #tile in display to be replaced
                 tileToReplace=display[y][x]
                 #loop all tiles that it could be replaced with
-                for tileCheck in replaceTiles:
+                for tileCheck in frameReplaceTiles:
                     #if tile in display matches replacement
                     if tileToReplace==tileCheck:
-                        replacement=replaceTiles[tileCheck]
+                        replacement=frameReplaceTiles[tileCheck]
                         #determine if tile is static animated or random
                         if type(replacement)==list:
                             replacementCheck=replacement
@@ -163,19 +173,11 @@ class Camera():
                     layers[obj.layer]=[]
                 layers[obj.layer].append(obj)
 
-            if hasattr(obj,"flames"):
-                for fire in obj.flames:
-                    if fire.x>=self.x and fire.x<self.x+self.width and fire.y>=self.y and fire.y<self.y+self.height:
-                        if not obj.layer in layers.keys():
-                            layers[obj.layer]=[]
-                        layers[obj.layer].append(fire)
-
-            if hasattr(obj,"body"):
-                for body in obj.body:
-                    if body.x>=self.x and body.x<self.x+self.width and body.y>=self.y and body.y<self.y+self.height:
-                        if not obj.layer in layers.keys():
-                            layers[obj.layer]=[]
-                        layers[obj.layer].append(body)
+            #upgrade this
+            self.subDraw(obj,"flames",layers)
+            self.subDraw(obj,"body",layers)
+            self.subDraw(obj,"wires",layers)
+            self.subDraw(obj,"doors",layers)
         
         #draw objects to display
         layers = dict(sorted(layers.items()))
@@ -184,9 +186,10 @@ class Camera():
                 image=obj.draw(frame=frame)
                 if type(image) == str:
                     display[obj.y-self.y][obj.x-self.x]=image
-                if type(image) == list:
-                    for tile in image:
-                        display[tile.y-self.y][tile.x-self.x]=tile.tile
+                #better draw method but needs some work to be up to date
+                #if type(image) == list:
+                #    for tile in image:
+                #        display[tile.y-self.y][tile.x-self.x]=tile.tile
 
         #draw display to screen
         print(colors.color("white")+"  "+("_"*(self.width*2+1)))
@@ -198,7 +201,11 @@ class Camera():
                 line+=char
                 if length<=1:
                     line+=" "
-            print(" |"+f'{line: <{self.width*2}}'+" |")
+            content=f'{line: <{self.width*2}}'
+            if any(key=="colorise" for key in shader.keys()):
+                for color in colors.allColors():
+                    content=colorise(content.replace(colors.allColors()[color],colors.color(shader["colorise"])),"red")
+            print(" |"+content+" |")
         print(" |"+("_"*(self.width*2+1))+"|" )
         for line in signText.text:
             print(f'{line: ^{self.width*2+5}}')

@@ -69,10 +69,10 @@ class Flamethrower():
         if self.time > self.maxTime:
             self.time = 0
 
-    def attack(self, enemy,level,camera):
+    def attack(self, enemy,level,camera,frame,signText,debug):
         for fire in self.flames:
                         if fire.damage==True and enemy.x==fire.x and enemy.y==fire.y:
-                            if hasattr(enemy, "hurt"): enemy.hurt(level,camera)
+                            if hasattr(enemy, "hurt"): enemy.hurt(level,camera,frame,signText,debug)
                             return True
         return False
 

@@ -5,8 +5,11 @@ from objects.sign import *
 from objects.flamethrower import *
 from objects.snake import *
 from objects.enemy import *
+from objects.box import *
+from objects.button import *
+from objects.switch import *
 
-wallTiles = ["#","=","T","/","&","D", "w","H","h","|","?","r","k","Y"]
+wallTiles = ["#","=","T","/","&", "w","H","h","|","?","r","k","Y"]
 deathTiles = ["^","~","-","$","%","E","("]
 
 def fill2DArray(array,char):
@@ -22,7 +25,7 @@ def fill2DArray(array,char):
 class Level():
     tiles=[[]]
     objects=[]
-    wallTiles = ["#","=","T","/","&","D", "w","H","h","|","?","r","k","Y"]
+    wallTiles = ["#","=","T","/","&", "w","H","h","|","?","r","k","Y"]
     deathTiles = ["^","~","-","$","%","E","("]
     level=0
 
@@ -83,6 +86,9 @@ class Level():
                 self.objectCheck(Flamethrower,tile,x,y)
                 self.objectCheck(Snake,tile,x,y)
                 self.objectCheck(Enemy,tile,x,y)
+                self.objectCheck(Box,tile,x,y)
+                self.objectCheck(Button,tile,x,y)
+                self.objectCheck(Switch,tile,x,y)
 
     def create(self,currentLevel):
         fileDirectory="levels/level"+str(currentLevel)+".txt" #test if json version exists, if json read that instead

@@ -225,9 +225,9 @@ class Enemy():
         self.x+=target.x
         self.y+=target.y
 
-    def attack(self, enemy,level,camera):
+    def attack(self,enemy,level,camera,frame,signText,debug):
         if self.damage==True and self.x==enemy.x and self.y==enemy.y:
-                    enemy.hurt(level,camera)
+                    enemy.hurt(level,camera,frame,signText,debug)
                     return True
         return False
 

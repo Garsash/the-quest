@@ -57,4 +57,7 @@ class colors:
         if reset==True: out+=white
         return out
 
+    def allColors():
+        return colorValues
+
 

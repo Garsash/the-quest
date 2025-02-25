@@ -32,6 +32,10 @@ class Sign():
 
     def draw(self, **kwargs):
         return self.tile
+
+    def collision(self, other, movement,level):
+        if self.x==other.x+movement.x and self.y==other.y+movement.y:
+            return True
     
 class SignText():
     def __init__(self,text=""):

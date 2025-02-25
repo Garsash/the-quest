@@ -43,6 +43,7 @@ class Snake():
                     body.append(Body(target.x,target.y))
                     break
         body.pop(0)
+
         snake=Snake(x,y,body)
         level.createObject(snake)
 
@@ -67,11 +68,13 @@ class Snake():
         self.x+=move.x
         self.y+=move.y
 
-    def attack(self,enemy,level,camera):
-        for part in self.body:
-            if enemy.x==part.x and enemy.y==part.y and part.damage==True:
-                enemy.hurt(level,camera)
-                return True
+    def attack(self,enemy,level,camera,frame,signText,debug):
+        if enemy.x==self.x and enemy.y==self.y and self.damage==True:
+            enemy.hurt(level,camera,frame,signText,debug)
+            return True
+        if any(enemy.x==part.x and enemy.y==part.y and part.damage==True for part in self.body):
+            enemy.hurt(level,camera,frame,signText,debug)
+            return True
         return False
 
     def draw(self, **kwargs):

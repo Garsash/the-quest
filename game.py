@@ -52,9 +52,14 @@ while True:
         #sort objects by update order
         update={}
         for obj in level.objects:
-            if not obj.layer in update.keys():
-                update[obj.layer]=[]
-            update[obj.layer].append(obj)
+            if hasattr(obj,"executionOrder"):
+                if not obj.executionOrder in update.keys():
+                    update[obj.executionOrder]=[]
+                update[obj.executionOrder].append(obj)
+            else:
+                if not obj.layer in update.keys():
+                    update[obj.layer]=[]
+                update[obj.layer].append(obj)
         
         signText=SignText("")
         #update objects
@@ -70,6 +75,12 @@ while True:
         ##    #tick each object
         ##    obj.tick(level,inputs=inputs,camera=camera)
 
+        if inputs["skip"]==True:
+            level.create(level.level+1)
+            camera.moveTo(level.player.x,level.player.y)
+        if inputs["exit"]==True:
+            quit()
+            
         camera.draw(level,frame,signText,debug)
         time.sleep(0.2)
 

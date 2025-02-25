@@ -44,9 +44,9 @@ class Spike():
         if self.time > self.maxTime:
             self.time = 0
     
-    def attack(self, enemy,level,camera):
+    def attack(self, enemy,level,camera,frame,signText,debug):
         if self.damage==True and self.x==enemy.x and self.y==enemy.y:
-                    enemy.hurt(level,camera)
+                    enemy.hurt(level,camera,frame,signText,debug)
                     return True
         return False
 

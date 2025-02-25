@@ -1,5 +1,10 @@
 import keyboard
+from camera import Camera
 from mathLib import Vector
+from rcolors import colors
+import time
+
+colorise=colors.colorise
 
 #define player object
 class Player():
@@ -19,20 +24,29 @@ class Player():
 
     @classmethod
     def getInputs(cls):
-        inputs={"up":0,"down":0,"left":0,"right":0}
+        inputs={"up":0,"down":0,"left":0,"right":0,"skip":0,"die":0}
         inputs["up"]=keyboard.is_pressed("w")
         inputs["left"]=keyboard.is_pressed("a")
         inputs["down"]=keyboard.is_pressed("s")
         inputs["right"]=keyboard.is_pressed("d")
+        inputs["skip"]=keyboard.is_pressed("e")
+        inputs["die"]=keyboard.is_pressed("q")
+        inputs["exit"]=keyboard.is_pressed("esc")
         return inputs
 
-    def hurt(self,level,camera):
+    def hurt(self,level,camera,frame,signText,debug):
+        camera.draw(level,frame,signText,debug,shader={"tiles":{"/":colorise("/","red")},"background":"/","colorise":"red"})
+        time.sleep(1)
         camera.drawTitle("gameOver")
         input("")
         level.create(level.level)
         camera.moveTo(level.player.x,level.player.y)
     
-    def tick(self,level,inputs,camera, **kwargs):
+    def tick(self,level,inputs,camera,frame,signText,debug, **kwargs):
+        if inputs["die"]==True:
+            self.hurt(level,camera,frame,signText,debug)
+            return False
+
         move=Vector(0,0)
         move.y=inputs["down"]-inputs["up"]
         move.x=inputs["right"]-inputs["left"]
@@ -45,26 +59,27 @@ class Player():
         #if inputs["right"]:
         #    move.x+=1
 
-        if level.getTile(self.x+move.x,self.y+move.y) in level.wallTiles or (any(hasattr(x, "solid") and x.solid==True and x.x==self.x+move.x and x.y==self.y+move.y  for x in level.objects)):
+        if level.getTile(self.x+move.x,self.y+move.y) in level.wallTiles or (any(hasattr(object, "collision") and object.collision(self,move,level)==True for object in level.objects)):
             move.x=0
             move.y=0
         else:
-            if level.getTile(self.x+move.x,self.y) in level.wallTiles or (any(hasattr(x, "solid") and x.solid==True and x.x==self.x+move.x and x.y==self.y for x in level.objects)):
+            if level.getTile(self.x+move.x,self.y) in level.wallTiles or (any(hasattr(object, "collision") and object.collision(self,Vector(move.x,0),level) for object in level.objects)):
                 move.x=0
-            elif level.getTile(self.x,self.y+move.y) in level.wallTiles or (any(hasattr(x, "solid") and x.solid==True and x.x==self.x and x.y==self.y+move.y for x in level.objects)):
+            elif level.getTile(self.x,self.y+move.y) in level.wallTiles or (any(hasattr(object, "collision") and object.collision(self,Vector(0,move.y),level) for object in level.objects)):
                 move.y=0
 
         self.x+=move.x
         self.y+=move.y
 
+        camera.x=self.x-int(camera.width/2)
+        camera.y=self.y-int(camera.height/2)
+
         self.tile="@"
         for obj in level.objects:
             if hasattr(obj,"attack"):
-                obj.attack(self,level,camera)
+                obj.attack(self,level,camera,frame,signText,debug)
                 
         
-        camera.x=self.x-int(camera.width/2)
-        camera.y=self.y-int(camera.height/2)
 
     def draw(self, **kwargs):
         return self.tile
