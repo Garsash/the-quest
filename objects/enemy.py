@@ -2,6 +2,7 @@ from rcolors import colors
 from mathLib import Vector
 from mathLib import Random
 from objects.player import Player
+from camera import Sprite
 colorise=colors.colorise
 
 ##        #find distance from player
@@ -232,4 +233,5 @@ class Enemy():
         return False
 
     def draw(self, **kwargs):
-        return colorise(self.tile,"red")
+        sprite=colorise(self.tile,"red")
+        return Sprite(self.x,self.y,self.layer,sprite)

@@ -60,6 +60,20 @@ replaceTitles={
     "w":colors.color("white")
 }
 
+class Sprite():
+    def __init__(self,x,y,layer,sprite):
+        self.x=x
+        self.y=y
+        self.layer=layer
+        self.sprite=sprite
+
+class Shader():
+    def __init__(self,tiles={},background=" ",colorise={}):
+        self.tiles=tiles
+        self.background=background
+        self.colorise=colorise
+
+
 #camera obj
 class Camera():
     global replaceTiles
@@ -100,7 +114,7 @@ class Camera():
                         layers[subItem.layer]=[]
                     layers[subItem.layer].append(subItem)
 
-    def draw(self,level,frame,signText,debug,shader={"tiles":{},"background":" "}):
+    def draw(self,level,frame,signText,debug,shader=Shader()):
         #clear screen
         os.system("cls")
         debug.print()
@@ -111,7 +125,7 @@ class Camera():
         for y in range(self.height):
             line=[]
             for x in range(self.width):
-                line.append(shader["background"])
+                line.append(shader.background)
             display.append(line)
 
         #read map to display
@@ -132,7 +146,7 @@ class Camera():
                 display[y][x]=tile
 
         frameReplaceTiles=replaceTiles.copy()
-        frameReplaceTiles.update(shader["tiles"])
+        frameReplaceTiles.update(shader.tiles)
 
         #draw correct tiles to display
         for y in range(len(display)):
@@ -164,30 +178,42 @@ class Camera():
                         #else replace
                         else:
                             display[y][x]=replacement
-
-        #sort objects by layer
+        
         layers={}
         for obj in level.objects:
-            if obj.x>=self.x and obj.x<self.x+self.width and obj.y>=self.y and obj.y<self.y+self.height:
-                if not obj.layer in layers.keys():
-                    layers[obj.layer]=[]
-                layers[obj.layer].append(obj)
+            image=obj.draw(frame=frame)
+            if type(image)==Sprite:
+                if image.x>=self.x and image.x<self.x+self.width and image.y>=self.y and image.y<self.y+self.height:
+                    if not image.layer in layers.keys():
+                        layers[image.layer]=[]
+                    layers[image.layer].append(image)
+            if type(image)==list:
+                for sprite in image:
+                    if sprite.x>=self.x and sprite.x<self.x+self.width and sprite.y>=self.y and sprite.y<self.y+self.height:
+                        if not sprite.layer in layers.keys():
+                            layers[sprite.layer]=[]
+                        layers[sprite.layer].append(sprite)
+
+        #sort objects by layer
+        #layers={}
+        #for obj in level.objects:
+        #    if obj.x>=self.x and obj.x<self.x+self.width and obj.y>=self.y and obj.y<self.y+self.height:
+        #        if not obj.layer in layers.keys():
+        #            layers[obj.layer]=[]
+        #        layers[obj.layer].append(obj)
 
             #upgrade this
-            self.subDraw(obj,"flames",layers)
-            self.subDraw(obj,"body",layers)
-            self.subDraw(obj,"wires",layers)
-            self.subDraw(obj,"doors",layers)
+            #self.subDraw(obj,"flames",layers)
+            #self.subDraw(obj,"body",layers)
+            #self.subDraw(obj,"wires",layers)
+            #self.subDraw(obj,"objects",layers)
         
         #draw objects to display
         layers = dict(sorted(layers.items()))
         for x in layers:
-            for obj in layers[x]:
-                image=obj.draw(frame=frame)
-                if type(image) == str:
-                    display[obj.y-self.y][obj.x-self.x]=image
-                #better draw method but needs some work to be up to date
-                #if type(image) == list:
+            for sprite in layers[x]:
+                display[sprite.y-self.y][sprite.x-self.x]=sprite.sprite
+                #elif type(image) == list:
                 #    for tile in image:
                 #        display[tile.y-self.y][tile.x-self.x]=tile.tile
 
@@ -202,9 +228,13 @@ class Camera():
                 if length<=1:
                     line+=" "
             content=f'{line: <{self.width*2}}'
-            if any(key=="colorise" for key in shader.keys()):
-                for color in colors.allColors():
-                    content=colorise(content.replace(colors.allColors()[color],colors.color(shader["colorise"])),"red")
+            if len(shader.colorise)>=1:
+                if type(shader.colorise)==str:
+                    for color in colors.allColors():
+                        content=colorise(content.replace(colors.allColors()[color],colors.color(shader.colorise)),shader.colorise)
+                else:
+                    for color in shader.colorise:
+                        content=colors.color("white")+content.replace(colors.allColors()[color],colors.color(shader.colorise[color]))+colors.color("white")
             print(" |"+content+" |")
         print(" |"+("_"*(self.width*2+1))+"|" )
         for line in signText.text:

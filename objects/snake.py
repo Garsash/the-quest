@@ -1,5 +1,6 @@
 from rcolors import colors
 from mathLib import Vector
+from camera import Sprite
 colorise=colors.colorise
 
 class Tile():
@@ -19,7 +20,8 @@ class Body():
         self.tile=tile
     
     def draw(self, **kwargs):
-        return colorise(self.tile,"green")
+        sprite=colorise(self.tile,"green")
+        return Sprite(self.x,self.y,self.layer,sprite)
 
 class Snake():
     instantiationTiles=["$"]
@@ -78,4 +80,8 @@ class Snake():
         return False
 
     def draw(self, **kwargs):
-        return colorise(self.tile,"green")
+        parts=[]
+        for part in self.body:
+            parts.append(part.draw())
+        sprite=colorise(self.tile,"green")
+        return [Sprite(self.x,self.y,self.layer,sprite)]+parts

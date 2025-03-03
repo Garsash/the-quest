@@ -1,5 +1,6 @@
 from mathLib import Vector
 from rcolors import colors
+from camera import Sprite
 colorise=colors.colorise
 
 ##change signs to only be text and dynamicly format themselves
@@ -31,7 +32,8 @@ class Sign():
                 signText.text=self.text
 
     def draw(self, **kwargs):
-        return self.tile
+        sprite=self.tile
+        return Sprite(self.x,self.y,self.layer,sprite)
 
     def collision(self, other, movement,level):
         if self.x==other.x+movement.x and self.y==other.y+movement.y:

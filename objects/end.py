@@ -1,5 +1,6 @@
 from mathLib import Vector
 from rcolors import colors
+from camera import Sprite
 colorise=colors.colorise
 
 #define end object
@@ -26,4 +27,5 @@ class End():
         return True
 
     def draw(self, **kwargs):
-        return colorise(self.tile,"purple")
+        sprite=colorise(self.tile,"purple")
+        return Sprite(self.x,self.y,self.layer,sprite)

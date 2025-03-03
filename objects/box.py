@@ -1,5 +1,6 @@
 from rcolors import colors
 from mathLib import Vector
+from camera import Sprite
 colorise=colors.colorise
 
 class Box():
@@ -20,7 +21,8 @@ class Box():
         return True
     
     def draw(self, **kwargs):
-        return self.tile
+        sprite=self.tile
+        return Sprite(self.x,self.y,self.layer,sprite)
 
     def collision(self,other,move,level):
         if self.x==other.x+move.x and self.y==other.y+move.y:

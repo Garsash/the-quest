@@ -7,6 +7,12 @@ from objects.sign import *
 from objects.flamethrower import *
 from objects.snake import *
 
+class Object():
+    pos=None
+    From=None
+    to=None
+    type=None
+
 fileDirectory=input("Enter file location: ")
 if fileDirectory == "":
     fileDirectory="levels/rooms/level1.json"
@@ -38,10 +44,10 @@ for wall in wallData:
             for x in range(start.x,end.x+1):
                 if y==start.y or y==end.y or x==start.x or x==end.x:
                     world[y][x]="#"
-                elif y==start.y-1:
-                    world[y][x]="_"
                 else:
                     world[y][x]="."
+                if y==start.y-1:
+                    world[y][x]="_"
 
     if wall["type"]=="corridor":
         for y in range(start.y-2,end.y+2):
@@ -65,12 +71,33 @@ level=Level()
 print(objectData)
 
 for object in objectData:
-    type=object["type"]
-    if object.has_key("pos"): #hasattr is for object this is other kind of object
-        pos=Vector(object["pos"][0],object["pos"][1])
-    if type=="player":
-        print(object)
-        Player.create(pos.x,pos.y,level)
+    obj=Object()
+    obj.type=object["type"]
+    
+    ##get pos
+    if "pos" in object.keys(): #hasattr is for object this is other kind of object
+        obj.pos=Vector(object["pos"][0],object["pos"][1])
+    elif "from" in object.keys() and "to" in object.keys():
+        obj.From=Vector(object["from"][0],object["from"][1])
+        obj.to=Vector(object["to"][0],object["to"][1])
+
+    
+    ##player
+    if obj.type=="player":
+        Player.create(obj.pos.x,obj.pos.y,level)
+
+    elif obj.type=="spikes":
+        if obj.pos!=None:
+            Spike.create(obj.pos.x,obj.pos.y,level)
+        elif obj.From!=None and obj.to!=None:
+            for y in range(obj.From.y,obj.to.y):
+                for x in range(obj.From.x,obj.to.y):
+                    Spike.create(x,y,level)
+
+    print(object)
+    
+
+
     
 
 for y in world:

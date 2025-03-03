@@ -2,6 +2,8 @@ import keyboard
 from camera import Camera
 from mathLib import Vector
 from rcolors import colors
+from camera import Sprite
+from camera import Shader
 import time
 
 colorise=colors.colorise
@@ -35,7 +37,7 @@ class Player():
         return inputs
 
     def hurt(self,level,camera,frame,signText,debug):
-        camera.draw(level,frame,signText,debug,shader={"tiles":{"/":colorise("/","red")},"background":"/","colorise":"red"})
+        camera.draw(level,frame,signText,debug,Shader(tiles={"/":colorise("/","red")},background="/",colorise="red")) 
         time.sleep(1)
         camera.drawTitle("gameOver")
         input("")
@@ -82,7 +84,8 @@ class Player():
         
 
     def draw(self, **kwargs):
-        return self.tile
+        sprite=self.tile
+        return Sprite(self.x,self.y,self.layer,sprite)
 
 #    def moveBox(self):
 #        #loop through boxes
