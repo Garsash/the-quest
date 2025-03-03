@@ -1,0 +1,60 @@
+{
+    "world": {
+            "size": [40,20]
+    },
+    "walls": [
+        {
+            "type": "room",
+            "from": [0,1],
+            "to": [10,10]
+        },
+        {
+            "type": "room",
+            "from": [12,2],
+            "to": [33,8]
+        },
+        {
+            "type": "corridor",
+            "dir": "horizontal",
+            "from": [10,5],
+            "to": [12,5]
+        }
+    ],
+    "objects": [
+        {
+            "type": "player",
+            "pos": [5,5]
+        },
+        {
+            "type": "spikes",
+            "from": [19,3],
+            "to": [19,7],
+            "time": 4,
+            "state": false
+        },
+        {
+            "type": "spikes",
+            "from": [26,3],
+            "to": [27,7]
+        },
+        {
+            "type": "sign",
+            "pos": [5,7],
+            "text": ["Welcome to the Dungon!! -->"]
+        },
+        {
+            "type": "sign",
+            "pos": [15,5],
+            "text": ["See those things over there?", "They're spike traps!"]
+        },
+        {
+            "type": "sign",
+            "pos": [22,5],
+            "text": ["They change pretty fast! So you", "have to time your moves right"]
+        },
+        {
+            "type": "end",
+            "pos": [5,3]
+        }
+    ]
+}

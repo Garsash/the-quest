@@ -13,8 +13,10 @@ class Player():
     instantiationTiles=["@"]
 
     @classmethod
-    def create(cls,x,y,level): 
-        player=Player(x,y)
+    def create(cls,object,level):
+        pos=Vector(object["pos"][0],object["pos"][1])
+
+        player=Player(pos.x,pos.y)
         level.createObject(player)
 
     def __init__(self,x,y,tile="@",layer=10):
